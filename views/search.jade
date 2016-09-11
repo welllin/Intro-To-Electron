@@ -1,0 +1,20 @@
+div(id="search")
+  form(id="search-form")
+    input(id="search-input", placeholder="Search...")
+    input(type="submit")
+    
+div(id="search-results")
+
+script.
+  var app = require('./lib/app');
+  app.on("search-completed", function(results){
+    $('#search-results').empty();
+    results.forEach(function(result){
+      $("#search-results").append("<h2>" + result.title + "</h2>" + "<p>" + result.body + "</p>");
+    })
+  });
+  
+  $('#search-form').on("submit", function(ev){
+    ev.preventDefault();
+    app.emit("search-requested", $('#search-input').val())
+  });

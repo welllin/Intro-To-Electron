@@ -1,0 +1,29 @@
+div(id="chapter-nav")
+  h4(style="text-align: center") Chapters
+  ul
+    li
+      a(href="#", id="01-history" class="chapter-link") History 1
+    li
+      a(href="#", id="02-history" class="chapter-link") History 2
+    li
+      a(href="#", id="03-history" class="chapter-link") History 3
+div(id="chapter")
+  h2(id="title")
+  p(id="content")
+  
+script.
+  var app = require('./lib/app');
+  var showChapter = function(id) {
+    app.emit("chapter-selected", id);
+  }
+  app.on("chapter-rendered", function(chapter){
+    $("#title").html(chapter.title);
+    $("#content").html(chapter.body);
+  });
+  $(function(){
+    showChapter("01-history");
+    $(".chapter-link").on('click', function(ev){
+      ev.preventDefault();
+      showChapter(this.id);
+    })
+  });
